@@ -1,0 +1,29 @@
+{
+  "id": "mikan-subs-bot-addon",
+  "name": "Telegram‑бот подписчиков",
+  "description": "Неофициальный аддон, позволяющий управлять подписками, рассылкой и автосообщениями через Telegram‑бота, использующим токен панели Mikan.",
+  "version": "0.1.0",
+  "author": "Fortumers",
+  "entrypoint": "mikan-subs-bot.dll",
+  "type": "go",
+  "permissions": [
+    "bot",
+    "users_read",
+    "users_write",
+    "all_users",
+    "payments",
+    "events",
+    "storage",
+    "pages"
+  ],
+  "ui_pages": [
+    { "id": "menu", "title": "Меню", "icon": "📋" },
+    { "id": "articles", "title": "Статьи", "icon": "📰" },
+    { "id": "commands", "title": "Команды", "icon": "⚙️" },
+    { "id": "automsg", "title": "Автосообщения", "icon": "🤖" },
+    { "id": "broadcast", "title": "Рассылка", "icon": "📣" },
+    { "id": "texts", "title": "Тексты и экраны", "icon": "✏️" },
+    { "id": "icons", "title": "Иконки и цвета", "icon": "🎨" },
+    { "id": "article_buttons", "title": "Кнопки статей", "icon": "🔘" }
+  ]
+}

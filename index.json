@@ -1,0 +1,10 @@
+{
+  "id": "mikan-subs-bot-addon",
+  "name": "Telegram‑бот подписчиков",
+  "description": "Аддон добавляет гибкое меню, рассылку и автосообщения в Telegram‑боте, использующем токен Mikan‑панели.",
+  "icon": "https://raw.githubusercontent.com/Fortumers/mikan-subs-bot-addon/main/.github/icon.png",
+  "tags": ["telegram", "subscription", "broadcast", "go"],
+  "author": "Fortumers",
+  "repository": "https://github.com/Fortumers/mikan-subs-bot-addon",
+  "release_url": "https://github.com/Fortumers/mikan-subs-bot-addon/releases/latest"
+}
