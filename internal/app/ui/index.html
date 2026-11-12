@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Бот подписчиков</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="sky" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="ring"></span>
+  </div>
+  <main class="page">
+    <header class="hero">
+      <div class="mark" aria-hidden="true"><span></span></div>
+      <div class="hero-copy">
+        <p class="kicker" id="kicker">Fortumers</p>
+        <h1 id="title">Бот подписчиков</h1>
+        <p class="lead" id="lead">Меню, автоответ и рассылка тем, кто написал боту.</p>
+      </div>
+      <div class="status" id="status">
+        <span class="dot" id="dot"></span>
+        <span id="status-text">Проверка…</span>
+      </div>
+    </header>
+
+    <section class="stats">
+      <article class="card stat">
+        <span class="stat-label" id="lbl-chats">Написали боту</span>
+        <strong id="chat-count">0</strong>
+      </article>
+      <article class="card stat">
+        <span class="stat-label" id="lbl-user">Имя бота</span>
+        <strong id="bot-name">—</strong>
+      </article>
+      <article class="card stat">
+        <span class="stat-label" id="lbl-ver">Версия</span>
+        <strong id="ver">—</strong>
+      </article>
+    </section>
+
+    <section class="grid">
+      <form class="card form" id="form">
+        <h2 id="lbl-menu">Сообщения и меню</h2>
+        <label id="lbl-welcome" for="welcome">Приветствие на /start</label>
+        <textarea id="welcome" rows="4" maxlength="3500" required></textarea>
+        <label id="lbl-auto" for="auto">Ответ на остальные сообщения</label>
+        <textarea id="auto" rows="3" maxlength="3500"></textarea>
+        <div class="row-head">
+          <h3 id="lbl-buttons">Кнопки</h3>
+          <button type="button" class="ghost" id="add">Добавить</button>
+        </div>
+        <div id="buttons"></div>
+        <p class="hint" id="hint">Ссылка открывается в Telegram. Текст ответа бот присылает отдельным сообщением.</p>
+        <div class="actions">
+          <button type="submit" class="primary" id="save">Сохранить</button>
+          <span class="note" id="save-note"></span>
+        </div>
+      </form>
+
+      <aside class="side">
+        <section class="card preview">
+          <h2 id="lbl-preview">Как видит человек</h2>
+          <div class="phone">
+            <p id="preview-text"></p>
+            <div id="preview-keys"></div>
+          </div>
+        </section>
+        <form class="card form" id="cast">
+          <h2 id="lbl-cast">Рассылка</h2>
+          <p class="hint" id="cast-hint">Уходит всем, кто хотя бы раз написал этому боту.</p>
+          <textarea id="cast-text" rows="4" maxlength="3500" placeholder="Текст новости"></textarea>
+          <div class="actions">
+            <button type="submit" class="primary" id="cast-btn">Отправить</button>
+            <span class="note" id="cast-note"></span>
+          </div>
+          <div class="bar" id="bar" hidden>
+            <span id="bar-fill"></span>
+          </div>
+        </form>
+      </aside>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
