@@ -1,58 +1,24 @@
 package bot
 
 import (
-    "fmt"
     "log"
     "os"
     "time"
-
     tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-    "github.com/user/mikan-subs-bot-addon/config"
-    "github.com/user/mikan-subs-bot-addon/metrics"
-    "github.com/user/mikan-subs-bot-addon/storage"
+    "github.com/mikan-panel/sdk"
+    "github.com/Fortumers/Addon-Mikan/config"
+    "github.com/Fortumers/Addon-Mikan/metrics"
+    "github.com/Fortumers/Addon-Mikan/storage"
 )
-
-// isQuietHours returns true when the current time in Moscow is between 22:00 and 09:00.
-func isQuietHours() bool {
-    loc, err := time.LoadLocation("Europe/Moscow")
-    if err != nil {
-        loc = time.UTC
-    }
-    now := time.Now().In(loc)
-    hour := now.Hour()
-    return hour >= 22 || hour < 9
-}
-
-// sendMessage sends a Telegram message respecting quiet hours.
-func sendMessage(api *tgbotapi.BotAPI, msg tgbotapi.Chattable) error {
-    // If quiet hours – disable notification for supported message types.
-    if isQuietHours() {
-        switch v := msg.(type) {
-        case tgbotapi.MessageConfig:
-            v.DisableNotification = true
-            _, err := api.Send(v)
-            return err
-        case tgbotapi.PhotoConfig:
-            v.DisableNotification = true
-            _, err := api.Send(v)
-            return err
-        default:
-            // other types are sent as‑is.
-        }
-    }
-    _, err := api.Send(msg)
-    return err
-}
 
 type Bot struct {
     api   *tgbotapi.BotAPI
     cfg   *config.BotConfig
-    store *storage.Storage
+    store storage.Storage
     metr  *metrics.Counters
     // channels for broadcast and auto‑messages (simplified)
     broadcastCh chan struct{}
 }
-
 
 // NewBot creates and starts the Telegram bot.
 func NewBot(stg storage.Storage, cfg *config.BotConfig) (*Bot, error) {
@@ -74,7 +40,6 @@ func NewBot(stg storage.Storage, cfg *config.BotConfig) (*Bot, error) {
     go b.listenUpdates()
     return b, nil
 }
-
 
 func (b *Bot) listenUpdates() {
     u := tgbotapi.NewUpdate(0)
@@ -105,8 +70,8 @@ func (b *Bot) handleStart(msg *tgbotapi.Message) {
     _ = b.store.AddUser(msg.From.ID)
     // Build menu based on configuration
     reply := b.buildMessageForUser(msg.From.ID)
-    // Send respecting quiet hours
-    if err := sendMessage(b.api, reply); err != nil {
+    _, err := b.api.Send(reply)
+    if err != nil {
         log.Printf("send start reply error: %v", err)
     }
     b.metr.IncBotMsg()
@@ -118,34 +83,44 @@ func (b *Bot) handleUpdate(msg *tgbotapi.Message) {
 }
 
 func (b *Bot) handleCallback(cb *tgbotapi.CallbackQuery) {
+    // Simple echo of callback data – real logic will be expanded later.
     data := cb.Data
+    // If data encodes a button id, we can toggle Selected state etc.
+    // For now just answer with alert.
     answer := tgbotapi.NewCallback(cb.ID, "Clicked: "+data)
     if _, err := b.api.Request(answer); err != nil {
         log.Printf("callback answer error: %v", err)
     }
 }
 
-// buildMessageForUser creates a Telegram message (or photo) with article‑style keyboard.
-func (b *Bot) buildMessageForUser(userID int64) tgbotapi.Chattable {
+func (b *Bot) buildMessageForUser(userID int64) tgbotapi.MessageConfig {
+    // Find the first menu section (could be extended to per‑user selection)
     if len(b.cfg.Menus) == 0 {
+        // fallback text
         return tgbotapi.NewMessage(userID, "Меню пока не настроено.")
     }
     sec := b.cfg.Menus[0]
-    // If image is set – return PhotoConfig with caption
+    // Build text
+    msg := tgbotapi.NewMessage(userID, sec.Text)
+    // Attach image if provided
     if sec.ImageURL != "" {
+        // using PhotoShare for simplicity
         photo := tgbotapi.NewPhotoShare(userID, sec.ImageURL)
         photo.Caption = sec.Text
-        photo.ReplyMarkup = BuildArticleKeyboard(sec.ArticleButtons)
+        // Build article‑style keyboard from section buttons
+        kb := BuildArticleKeyboard(sec.ArticleButtons)
+        photo.ReplyMarkup = kb
         return photo
     }
-    // otherwise plain text with inline keyboard
-    msg := tgbotapi.NewMessage(userID, sec.Text)
-    msg.ReplyMarkup = BuildArticleKeyboard(sec.ArticleButtons)
+    // Otherwise attach inline keyboard to plain message
+    kb := BuildArticleKeyboard(sec.ArticleButtons)
+    msg.ReplyMarkup = kb
     return msg
 }
 
 // RegisterHandlers is a thin wrapper used from addon.Register to expose bot methods.
 func RegisterHandlers(b *Bot) {
-    // Handlers already attached via listenUpdates.
+    // In this simplified version handlers are already attached via listenUpdates.
+    // SDK could also expose events – left as placeholder.
     _ = b
 }
