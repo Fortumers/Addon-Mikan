@@ -1,0 +1,28 @@
+{
+  "id": "mikan-subs-bot",
+  "name": {
+    "ru": "Бот подписчиков",
+    "en": "Subscribers' bot"
+  },
+  "description": {
+    "ru": "Telegram-бот подписчиков для панели Mikan: своё меню, рассылка, автосообщения. Исходный код на Go.",
+    "en": "Telegram subscribers bot for Mikan panel: custom menu, broadcasts, auto-messages. Go source."
+  },
+  "protocol": 2,
+  "kind": "bot",
+  "mode": "http",
+  "permissions": [
+    "bot",
+    "users:read",
+    "users:write",
+    "users:all",
+    "billing:invoice",
+    "events",
+    "kv",
+    "ui"
+  ],
+  "resources": {
+    "mem_mb": 128
+  },
+  "min_panel": "0.5.1.0"
+}
