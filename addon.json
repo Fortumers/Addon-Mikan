@@ -1,12 +1,12 @@
 {
-  "id": "mikan-subs-bot",
+  "id": "fortumers-subs-bot",
   "name": {
-    "ru": "Бот подписчиков",
-    "en": "Subscribers' bot"
+    "ru": "Бот подписчиков (Fortumers)",
+    "en": "Subscribers bot (Fortumers)"
   },
   "description": {
-    "ru": "Telegram-бот подписчиков для панели Mikan: своё меню, рассылка, автосообщения. Исходный код на Go.",
-    "en": "Telegram subscribers bot for Mikan panel: custom menu, broadcasts, auto-messages. Go source."
+    "ru": "Telegram-бот подписчиков для панели Mikan: своё меню, рассылка, автосообщения.",
+    "en": "Telegram subscribers bot for Mikan panel: custom menu, broadcasts, auto-messages."
   },
   "protocol": 2,
   "kind": "bot",
