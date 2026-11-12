@@ -1,29 +1,15 @@
 {
-  "id": "mikan-subs-bot-addon",
-  "name": "Telegram‑бот подписчиков",
-  "description": "Неофициальный аддон, позволяющий управлять подписками, рассылкой и автосообщениями через Telegram‑бота, использующим токен панели Mikan.",
-  "version": "0.1.0",
-  "author": "Fortumers",
-  "entrypoint": "mikan-subs-bot.dll",
-  "type": "go",
-  "permissions": [
-    "bot",
-    "users_read",
-    "users_write",
-    "all_users",
-    "payments",
-    "events",
-    "storage",
-    "pages"
-  ],
-  "ui_pages": [
-    { "id": "menu", "title": "Меню", "icon": "📋" },
-    { "id": "articles", "title": "Статьи", "icon": "📰" },
-    { "id": "commands", "title": "Команды", "icon": "⚙️" },
-    { "id": "automsg", "title": "Автосообщения", "icon": "🤖" },
-    { "id": "broadcast", "title": "Рассылка", "icon": "📣" },
-    { "id": "texts", "title": "Тексты и экраны", "icon": "✏️" },
-    { "id": "icons", "title": "Иконки и цвета", "icon": "🎨" },
-    { "id": "article_buttons", "title": "Кнопки статей", "icon": "🔘" }
-  ]
+  "id": "mikan-subs-bot",
+  "name": {"ru": "Бот подписчиков", "en": "Subscribers' bot"},
+  "description": {
+    "ru": "Telegram-бот подписчиков на основе официального бота mikan: своё меню, рассылка всем, автосообщения. Без своей базы: всё хранится в панели.",
+    "en": "A subscribers' Telegram bot built on mikan's official bot: custom menu, broadcasts to everyone who started the bot, automatic messages. No database of its own: everything is kept in the panel."
+  },
+  "protocol": 2,
+  "kind": "bot",
+  "mode": "http",
+  "permissions": ["bot", "users:read", "users:write", "users:all", "billing:invoice", "events", "kv", "ui"],
+  "resources": {"mem_mb": 128},
+  "min_panel": "0.5.1.0",
+  "version": "0.1.0"
 }
